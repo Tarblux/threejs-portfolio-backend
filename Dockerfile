@@ -14,5 +14,5 @@ COPY . .
 # Expose port the app runs on
 EXPOSE 3000
 
-# Start the server (W/ Nodemon for live reloading)
-CMD ["npm", "run", "dev"]
+# Start the server 
+CMD ["npm", "run", "start"]
