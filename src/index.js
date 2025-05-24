@@ -3,9 +3,13 @@ const express = require('express');
 const { Pool } = require('pg');
 const healthRoute = require('./routes/health');
 const recentGamesRoute = require('./routes/recentGames');
+const myRatingsRoute = require('./routes/myRatings');
+const lastOnlineRoute = require('./routes/lastOnline');
 const corsMiddleware = require('./middleware/cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+
 
 // Database connection configuration
 const pool = new Pool({
@@ -32,8 +36,12 @@ app.use('/health', healthRoute(pool));
 
 app.use('/recent-games', recentGamesRoute);
 
+app.use('/my-ratings', myRatingsRoute);
+
+app.use('/last-online', lastOnlineRoute);
+
 app.get('/', (req, res) => {
-  res.send('Hello from the other kweku!');
+  res.send('Hello from the other siiiiiidee!');
 });
 
 app.listen(PORT, () => {
