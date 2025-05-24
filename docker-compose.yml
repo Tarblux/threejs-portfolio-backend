@@ -5,8 +5,8 @@ services:
     build:
       context: .
     container_name: portfolio-backend
-    volumes:
-      - .:/app
+    environment:
+      - NODE_ENV=production
     expose:
       - "3000"
     restart: unless-stopped
