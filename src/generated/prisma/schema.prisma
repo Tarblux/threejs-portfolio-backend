@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model chess_games {
+  id              Int       @id @default(autoincrement())
+  game_id         String?   @unique
+  date            DateTime? @db.Date
+  game_url        String?
+  time_control    String?
+  time            String?
+  my_color        String?
+  my_rating       Int?
+  opponent_name   String?
+  opponent_url    String?
+  opponent_rating Int?
+  opponent_color  String?
+  opponent_flag   String?
+  result          String?
+  move_count      Int?
+}
+
+model chess_games_dev {
+  id              Int       @id @default(autoincrement())
+  game_id         String?   @unique
+  date            DateTime? @db.Date
+  game_url        String?
+  time_control    String?
+  time            String?
+  my_color        String?
+  my_rating       Int?
+  opponent_name   String?
+  opponent_url    String?
+  opponent_rating Int?
+  opponent_color  String?
+  opponent_flag   String?
+  result          String?
+  move_count      Int?
+}
+
+model chess_ratings {
+  id          Int         @id @default(autoincrement())
+  type        rating_type
+  rating      Int
+  change      Int?
+  percentile  Float?
+  global_rank Int?
+  recorded_at DateTime    @default(now()) @db.Timestamp(6)
+}
+
+enum game_result {
+  win
+  loss
+  draw
+  aborted
+  timeout
+}
+
+enum piece_color {
+  white
+  black
+}
+
+enum rating_type {
+  bullet
+  blitz
+  rapid
+  puzzle
+}
+
+enum time_control_type {
+  bullet
+  blitz
+  rapid
+  classical
+}
