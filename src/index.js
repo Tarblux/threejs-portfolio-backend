@@ -5,7 +5,12 @@ const healthRoute = require('./routes/health');
 const recentGamesRoute = require('./routes/recentGames');
 const myRatingsRoute = require('./routes/myRatings');
 const lastOnlineRoute = require('./routes/lastOnline');
+const gitContributionsRoute = require('./routes/gitContributions');
+const arsenalStandingsRoute = require('./routes/arsenalStandings');
 const corsMiddleware = require('./middleware/cors');
+const ratingsRapidRoute = require('./routes/ratingsRapid');
+const ratingsBlitzRoute = require('./routes/ratingsBlitz');
+const ratingsBulletRoute = require('./routes/ratingsBullet');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -31,7 +36,7 @@ pool.connect((err, client, release) => {
 
 app.use(corsMiddleware);
 
-// Health route
+// routes
 app.use('/health', healthRoute(pool));
 
 app.use('/recent-games', recentGamesRoute);
@@ -39,6 +44,14 @@ app.use('/recent-games', recentGamesRoute);
 app.use('/my-ratings', myRatingsRoute);
 
 app.use('/last-online', lastOnlineRoute);
+
+app.use('/git-contributions', gitContributionsRoute);
+
+app.use('/arsenal-standings', arsenalStandingsRoute);
+
+app.use('/ratings-rapid', ratingsRapidRoute);
+app.use('/ratings-blitz', ratingsBlitzRoute);
+app.use('/ratings-bullet', ratingsBulletRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello from the other siiiiiidee!');
