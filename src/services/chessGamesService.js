@@ -44,7 +44,8 @@ async function getRatingsByTimeControl(timeControl, options = {}) {
     where.date = dateFilter;
   }
 
-  return await prisma.chess_games.findMany({
+  // Fetch all relevant games, including game_id
+  const allGames = await prisma.chess_games.findMany({
     where,
     orderBy: [
       { date: 'asc' },
@@ -52,9 +53,25 @@ async function getRatingsByTimeControl(timeControl, options = {}) {
     ],
     select: {
       date: true,
-      my_rating: true
+      my_rating: true,
+      game_id: true
     }
   });
+
+  // Keep only the last game (highest game_id) for each date
+  const lastRatingsByDate = {};
+  for (const game of allGames) {
+    // Use only the date part (YYYY-MM-DD) as key
+    const dateKey = game.date instanceof Date ? game.date.toISOString().split('T')[0] : game.date.split('T')[0];
+    if (!lastRatingsByDate[dateKey] || game.game_id > lastRatingsByDate[dateKey].game_id) {
+      lastRatingsByDate[dateKey] = game;
+    }
+  }
+
+  // Return as array, sorted by date
+  return Object.values(lastRatingsByDate)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map(({ date, my_rating }) => ({ date, my_rating }));
 }
 
 module.exports = { getRecentGames, getRatingsByTimeControl }; 

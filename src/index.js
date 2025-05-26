@@ -11,6 +11,7 @@ const corsMiddleware = require('./middleware/cors');
 const ratingsRapidRoute = require('./routes/ratingsRapid');
 const ratingsBlitzRoute = require('./routes/ratingsBlitz');
 const ratingsBulletRoute = require('./routes/ratingsBullet');
+const chessRankRoute = require('./routes/chessRank');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -52,6 +53,8 @@ app.use('/arsenal-standings', arsenalStandingsRoute);
 app.use('/ratings-rapid', ratingsRapidRoute);
 app.use('/ratings-blitz', ratingsBlitzRoute);
 app.use('/ratings-bullet', ratingsBulletRoute);
+
+app.use('/chess-rank', chessRankRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello from the other siiiiiidee!');
