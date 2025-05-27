@@ -14,6 +14,33 @@ async function getGitRepoStats(repo) {
     Accept: 'application/vnd.github+json',
   };
 
+  // Get repo metadata to find default branch
+  const repoMetaRes = await axios.get(`${GITHUB_API_URL}/repos/${repo}`, { headers });
+  const defaultBranch = repoMetaRes.data.default_branch;
+
+  // Get total commits using pagination (efficient method)
+  let totalCommits = 0;
+  try {
+    const commitsRes = await axios.get(`${GITHUB_API_URL}/repos/${repo}/commits`, {
+      headers,
+      params: { sha: defaultBranch, per_page: 1 }
+    });
+    const linkHeader = commitsRes.headers['link'];
+    if (linkHeader) {
+      // Parse last page number from Link header
+      const match = linkHeader.match(/&page=(\d+)>; rel="last"/);
+      if (match) {
+        totalCommits = parseInt(match[1], 10);
+      } else {
+        totalCommits = 1; 
+      }
+    } else {
+      totalCommits = Array.isArray(commitsRes.data) ? commitsRes.data.length : 1;
+    }
+  } catch (err) {
+    totalCommits = 0;
+  }
+
   // Get all branches
   const branchesRes = await axios.get(`${GITHUB_API_URL}/repos/${repo}/branches`, { headers, params: { per_page: 100 } });
   const branches = branchesRes.data;
@@ -35,7 +62,6 @@ async function getGitRepoStats(repo) {
 
   // Sort all unique commits by date (descending)
   allCommits.sort((a, b) => new Date(b.commit.author.date) - new Date(a.commit.author.date));
-  const totalCommits = allCommits.length;
   const latest5 = allCommits.slice(0, 5).map(commit => ({
     message: commit.commit.message,
     timeAgo: dayjs(commit.commit.author.date).fromNow(),
