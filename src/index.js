@@ -13,6 +13,7 @@ const ratingsBlitzRoute = require('./routes/ratingsBlitz');
 const ratingsBulletRoute = require('./routes/ratingsBullet');
 const chessRankRoute = require('./routes/chessRank');
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 
@@ -37,24 +38,27 @@ pool.connect((err, client, release) => {
 
 app.use(corsMiddleware);
 
-// routes
+// general routes
 app.use('/health', healthRoute(pool));
 
+// chess routes
 app.use('/recent-games', recentGamesRoute);
 
 app.use('/my-ratings', myRatingsRoute);
 
 app.use('/last-online', lastOnlineRoute);
 
-app.use('/git-contributions', gitContributionsRoute);
-
-app.use('/arsenal-standings', arsenalStandingsRoute);
+app.use('/chess-rank', chessRankRoute);
 
 app.use('/ratings-rapid', ratingsRapidRoute);
 app.use('/ratings-blitz', ratingsBlitzRoute);
 app.use('/ratings-bullet', ratingsBulletRoute);
 
-app.use('/chess-rank', chessRankRoute);
+// git routes
+app.use('/git-contributions', gitContributionsRoute);
+
+// arsenal routes
+app.use('/arsenal-standings', arsenalStandingsRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello from the other siiiiiidee!');
