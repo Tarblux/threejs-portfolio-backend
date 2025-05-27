@@ -12,6 +12,7 @@ const ratingsRapidRoute = require('./routes/ratingsRapid');
 const ratingsBlitzRoute = require('./routes/ratingsBlitz');
 const ratingsBulletRoute = require('./routes/ratingsBullet');
 const chessRankRoute = require('./routes/chessRank');
+
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,7 @@ pool.connect((err, client, release) => {
   }
 });
 
+// Middleware
 app.use(corsMiddleware);
 
 // general routes
