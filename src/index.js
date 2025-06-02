@@ -13,12 +13,11 @@ const ratingsBlitzRoute = require('./routes/ratingsBlitz');
 const ratingsBulletRoute = require('./routes/ratingsBullet');
 const chessRankRoute = require('./routes/chessRank');
 const gitReposRoute = require('./routes/gitRepos');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
-
-
 
 // Database connection configuration
 const pool = new Pool({
@@ -40,6 +39,12 @@ pool.connect((err, client, release) => {
 
 // Middleware
 app.use(corsMiddleware);
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100, 
+  standardHeaders: true, 
+  legacyHeaders: false, 
+})); // rate limit for all routes , 100 requests per 15 minutes (Please don't DDoS me :D)
 
 // general routes
 app.use('/health', healthRoute(pool));
