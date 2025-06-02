@@ -5,10 +5,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-/**
- * Fetch the latest ranks and percentiles for each rating type from chess_rank.
- * @returns {Promise<Array>} Array of {date, time_control, global_rank, percentile}
- */
+
 async function getLatestRanksAndPercentiles() {
   const client = await pool.connect();
   try {

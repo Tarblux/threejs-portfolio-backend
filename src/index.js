@@ -12,6 +12,7 @@ const ratingsRapidRoute = require('./routes/ratingsRapid');
 const ratingsBlitzRoute = require('./routes/ratingsBlitz');
 const ratingsBulletRoute = require('./routes/ratingsBullet');
 const chessRankRoute = require('./routes/chessRank');
+const gitReposRoute = require('./routes/gitRepos');
 
 const app = express();
 app.use(express.json());
@@ -58,6 +59,7 @@ app.use('/ratings-bullet', ratingsBulletRoute);
 
 // git routes
 app.use('/git-contributions', gitContributionsRoute);
+app.use('/git-repos', gitReposRoute);
 
 // arsenal routes
 app.use('/arsenal-standings', arsenalStandingsRoute);

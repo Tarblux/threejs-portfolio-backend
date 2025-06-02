@@ -79,23 +79,39 @@ async function getGitRepoStats(repo) {
     languagePercentages[lang] = totalBytes > 0 ? ((bytes / totalBytes) * 100).toFixed(2) : "0.00";
   }
 
-  // Get commits per week (last year) with retry logic
+  // Get commits per week (last year) with retry logic (github api has a weird bug where it returns an empty array sometimes....bruh)
   let commitsPerWeek = [];
   let weeks = [];
   let attempts = 0;
-  const maxAttempts = 5;
+  const maxAttempts = 10;
+  const baseDelay = 1000;
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
   while (attempts < maxAttempts) {
-    const statsRes = await axios.get(`${GITHUB_API_URL}/repos/${repo}/stats/commit_activity`, { headers });
-    weeks = statsRes.data;
-    if (Array.isArray(weeks) && weeks.length > 0) {
-      commitsPerWeek = weeks.map(week => week.total);
-      break;
+    try {
+      const statsRes = await axios.get(`${GITHUB_API_URL}/repos/${repo}/stats/commit_activity`, { headers });
+      const status = statsRes.status;
+      console.log(`[GitHub API] Attempt ${attempts + 1}: Status ${status}`);
+      if (status === 202) {
+        // Data is being generated, wait and retry
+        await delay(baseDelay * Math.pow(2, attempts)); // exponential backoff
+      } else if (status === 200 && Array.isArray(statsRes.data) && statsRes.data.length > 0) {
+        weeks = statsRes.data;
+        commitsPerWeek = weeks.map(week => week.total);
+        break;
+      } else {
+        // 200 but empty data, wait and retry
+        await delay(baseDelay * Math.pow(2, attempts));
+      }
+    } catch (err) {
+      console.error(`[GitHub API] Error on attempt ${attempts + 1}:`, err.message);
+      await delay(baseDelay * Math.pow(2, attempts));
     }
-    // Wait 1 second before retrying (githup api has a weird bug where it returns an empty array sometimes....bruh)
-    await delay(1000);
     attempts++;
+  }
+
+  if (commitsPerWeek.length === 0) {
+    console.warn('[GitHub API] Could not fetch commit activity data after retries. Data may be generating or unavailable.');
   }
 
   return {
