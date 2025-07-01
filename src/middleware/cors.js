@@ -1,7 +1,8 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  'http://localhost:6006',      
+  'http://localhost:6006',  
+  'http://localhost:5173',  
   'https://www.tariqwill.com', 
   'https://tariqwill.com'
 ];
