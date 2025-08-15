@@ -21,10 +21,7 @@ const PORT = process.env.PORT || 3000;
 
 // Database connection configuration
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false 
-  }
+  connectionString: process.env.DATABASE_URL_2
 });
 
 // Test database connection
@@ -40,11 +37,11 @@ pool.connect((err, client, release) => {
 // Middleware
 app.use(corsMiddleware);
 app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 1000, 
+  windowMs: 10 * 60 * 1000,
+  max: 10000, 
   standardHeaders: true, 
   legacyHeaders: false, 
-})); // rate limit for all routes , 1000 requests per 15 minutes (Please don't DDoS me :D)
+})); // rate limit for all routes , 10,000 requests per 10 minutes (Please don't DDoS me :D)
 
 // general routes
 app.use('/health', healthRoute(pool));

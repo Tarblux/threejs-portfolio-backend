@@ -1,8 +1,7 @@
 const { Pool } = require('pg');
 
 const pool2 = new Pool({
-  connectionString: process.env.DATABASE_URL_2,
-  ssl: { rejectUnauthorized: false }
+  connectionString: process.env.DATABASE_URL_2
 });
 
 async function getGitRepoByName(repoName) {
