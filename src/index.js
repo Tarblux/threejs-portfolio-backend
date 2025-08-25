@@ -48,13 +48,9 @@ app.use('/health', healthRoute(pool));
 
 // chess routes
 app.use('/recent-games', recentGamesRoute);
-
 app.use('/my-ratings', myRatingsRoute);
-
 app.use('/last-online', lastOnlineRoute);
-
 app.use('/chess-rank', chessRankRoute);
-
 app.use('/ratings-rapid', ratingsRapidRoute);
 app.use('/ratings-blitz', ratingsBlitzRoute);
 app.use('/ratings-bullet', ratingsBulletRoute);
