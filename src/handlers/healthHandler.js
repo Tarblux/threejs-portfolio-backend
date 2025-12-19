@@ -19,7 +19,7 @@ const healthCheck = async (req, res, pool) => {
     client.release();
     res.json({
       status: 'healthy',
-      database: 'locked in',
+      database: 'connected',
       timestamp: result.rows[0].now,
       appVersion: version,
       uptime: formatUptime(process.uptime()),
