@@ -6,10 +6,11 @@ const packageJsonPath = path.join(__dirname, '../../package.json');
 const { version } = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
 function formatUptime(uptimeSeconds) {
+  const days = Math.floor(uptimeSeconds / 86400)
   const hours = Math.floor(uptimeSeconds / 3600);
   const minutes = Math.floor((uptimeSeconds % 3600) / 60);
   const seconds = Math.floor(uptimeSeconds % 60);
-  return `${hours}h ${minutes}m ${seconds}s`;
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 const healthCheck = async (req, res, pool) => {
