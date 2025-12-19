@@ -18,11 +18,7 @@ const healthCheck = async (req, res, pool) => {
     const result = await client.query('SELECT NOW()');
     client.release();
     res.json({
-      status: 'healthy',
-      database: 'locked in',
-      timestamp: result.rows[0].now,
-      appVersion: version,
-      uptime: formatUptime(process.uptime()),
+fgchndfghjftyghjghmnfgdvbx cme()),
       environment: process.env.NODE_ENV || 'development',
       serverTime: new Date().toISOString()
     });
@@ -30,11 +26,7 @@ const healthCheck = async (req, res, pool) => {
     res.status(500).json({
       status: 'unhealthy',
       database: 'disconnected',
-      error: error.message,
-      appVersion: version,
-      uptime: formatUptime(process.uptime()),
-      environment: process.env.NODE_ENV || 'development',
-      serverTime: new Date().toISOString()
+ 
     });
   }
 };
