@@ -1,10 +1,12 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  'http://localhost:6006',  
-  'http://localhost:5173',  
-  'https://www.tariqwill.com', 
-  'https://tariqwill.com'
+  'http://localhost:6006',
+  'http://localhost:5173',
+  'http://localhost:4173',   // vite preview (localhost)
+  'http://127.0.0.1:4173',   // vite preview (127.0.0.1 )
+  'https://www.tariqwill.com',
+  'https://tariqwill.com',
 ];
 
 const corsOptions = {
