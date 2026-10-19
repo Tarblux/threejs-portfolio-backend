@@ -19,13 +19,13 @@ const healthCheck = async (req, res, pool) => {
     const result = await client.query('SELECT NOW()');
     client.release();
     res.json({
-      status: 'healthy',
+      status: 'healthy for now...',
       database: 'connected',
       timestamp: result.rows[0].now,
       appVersion: version,
       uptime: formatUptime(process.uptime()),
       environment: process.env.NODE_ENV || 'development',
-      serverTime: new Date().toISOString()
+      serverTime: new Date().toISOString(),
     });
   } catch (error) {
     res.status(500).json({
