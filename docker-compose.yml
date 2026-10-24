@@ -1,18 +1,29 @@
-version: "3.7"
+name: threejs-portfolio-backend
 
 services:
-  portfolio-backend:
+  portfolio:
     build:
       context: .
-    container_name: portfolio-backend
+    container_name: portfolio
     environment:
-      - NODE_ENV=production
-    expose:
-      - "3000"
+      NODE_ENV: production
     restart: unless-stopped
+    volumes:
+      - ${PORTFOLIO_CONFIG_FILE:?Set PORTFOLIO_CONFIG_FILE in .env}:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 60s
     networks:
-      - web
+      - private
+      - egress
 
 networks:
-  web:
+  private:
     external: true
+    name: ${PORTFOLIO_INTERNAL_NETWORK:-trelawny-internal}
+  egress:
+    external: true
+    name: ${PORTFOLIO_EGRESS_NETWORK:-trelawny-portfolio-egress}

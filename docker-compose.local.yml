@@ -1,0 +1,14 @@
+# Explicit local-development override. Use with:
+# docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+services:
+  portfolio:
+    ports:
+      - "127.0.0.1:3000:3000"
+
+networks:
+  private:
+    external: false
+    name: ${PORTFOLIO_LOCAL_NETWORK:-portfolio-local}
+  egress:
+    external: false
+    name: ${PORTFOLIO_LOCAL_EGRESS_NETWORK:-portfolio-egress-local}
