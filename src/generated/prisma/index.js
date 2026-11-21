@@ -196,7 +196,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\tarbl\\Documents\\Software Dev\\!Projects\\threejs-portfolio-backend\\src\\generated\\prisma",
+      "value": "/Users/tariqwilliams/Developer/Projects/threejs-portfolio-backend/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -205,12 +205,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\tarbl\\Documents\\Software Dev\\!Projects\\threejs-portfolio-backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/tariqwilliams/Developer/Projects/threejs-portfolio-backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -233,8 +237,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel chess_games {\n  id              Int       @id @default(autoincrement())\n  game_id         String?   @unique\n  date            DateTime? @db.Date\n  game_url        String?\n  time_control    String?\n  time            String?\n  my_color        String?\n  my_rating       Int?\n  opponent_name   String?\n  opponent_url    String?\n  opponent_rating Int?\n  opponent_color  String?\n  opponent_flag   String?\n  result          String?\n  move_count      Int?\n}\n\nmodel chess_games_dev {\n  id              Int       @id @default(autoincrement())\n  game_id         String?   @unique\n  date            DateTime? @db.Date\n  game_url        String?\n  time_control    String?\n  time            String?\n  my_color        String?\n  my_rating       Int?\n  opponent_name   String?\n  opponent_url    String?\n  opponent_rating Int?\n  opponent_color  String?\n  opponent_flag   String?\n  result          String?\n  move_count      Int?\n}\n\nmodel chess_ratings {\n  id          Int         @id @default(autoincrement())\n  type        rating_type\n  rating      Int\n  change      Int?\n  percentile  Float?\n  global_rank Int?\n  recorded_at DateTime    @default(now()) @db.Timestamp(6)\n}\n\nenum game_result {\n  win\n  loss\n  draw\n  aborted\n  timeout\n}\n\nenum piece_color {\n  white\n  black\n}\n\nenum rating_type {\n  bullet\n  blitz\n  rapid\n  puzzle\n}\n\nenum time_control_type {\n  bullet\n  blitz\n  rapid\n  classical\n}\n",
-  "inlineSchemaHash": "8250adfb4dc1aec50a62b01878a9ad17cc8a811da3afac69118e1f8c4fffbca0",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n  output        = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel chess_games {\n  id              Int       @id @default(autoincrement())\n  game_id         String?   @unique\n  date            DateTime? @db.Date\n  game_url        String?\n  time_control    String?\n  time            String?\n  my_color        String?\n  my_rating       Int?\n  opponent_name   String?\n  opponent_url    String?\n  opponent_rating Int?\n  opponent_color  String?\n  opponent_flag   String?\n  result          String?\n  move_count      Int?\n}\n\nmodel chess_games_dev {\n  id              Int       @id @default(autoincrement())\n  game_id         String?   @unique\n  date            DateTime? @db.Date\n  game_url        String?\n  time_control    String?\n  time            String?\n  my_color        String?\n  my_rating       Int?\n  opponent_name   String?\n  opponent_url    String?\n  opponent_rating Int?\n  opponent_color  String?\n  opponent_flag   String?\n  result          String?\n  move_count      Int?\n}\n\nmodel chess_ratings {\n  id          Int         @id @default(autoincrement())\n  type        rating_type\n  rating      Int\n  change      Int?\n  percentile  Float?\n  global_rank Int?\n  recorded_at DateTime    @default(now()) @db.Timestamp(6)\n}\n\nenum game_result {\n  win\n  loss\n  draw\n  aborted\n  timeout\n}\n\nenum piece_color {\n  white\n  black\n}\n\nenum rating_type {\n  bullet\n  blitz\n  rapid\n  puzzle\n}\n\nenum time_control_type {\n  bullet\n  blitz\n  rapid\n  classical\n}\n",
+  "inlineSchemaHash": "23628cce29db828e42404345e748d236286eb55a9c7d2e940d94d381511831d6",
   "copyEngine": true
 }
 
@@ -273,8 +277,12 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
